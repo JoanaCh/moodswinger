@@ -1,0 +1,1 @@
+para mudar, irei meter aqui como isto tudo funciona função por função
