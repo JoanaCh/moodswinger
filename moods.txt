@@ -1,0 +1,4 @@
+normal,jazz
+angry,jzz
+happy,jazz
+sad,jazz

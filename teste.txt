@@ -1,0 +1,196 @@
+50s
+60s
+70s
+80s
+90s
+acid house
+adult contemporary
+african
+alternative
+ambient
+americana
+anime
+baladas
+baroque
+bass
+bass house
+bhangra
+big band
+big beat
+bluegrass
+blues
+bollywood
+breakbeat
+breakcore
+breaks
+britpop
+calypso
+caribbean
+celtic
+chamber
+chill
+chillout
+chinese
+christian
+christmas
+classic rock
+classical
+comedy
+community
+complextro
+country
+cumbia
+dance
+dancehall
+dancepunk
+darkwave
+decades
+deep house
+desi
+dirty south
+disco
+doo wop
+downtempo
+drone
+drum and bass
+dub
+dubstep
+east coast
+easy listening
+ebm
+edm
+electro
+electro house
+electronic
+electronica
+emo
+eurodance
+europop
+exotica
+experimental
+fidget house
+flamenco
+folk
+freestyle
+funk
+fusion
+gabber
+game
+garage
+glam rock
+glitch hop
+goa
+gospel
+goth
+gothic
+greek
+grime
+grindcore
+grunge
+happy hardcore
+hard house
+hard trance
+hardcore
+hardstyle
+hardtechno
+healing
+heavy metal
+hindi
+hip hop
+house
+idm
+indian
+indie
+industrial
+instrumental
+irish
+japanese
+jazz
+jewish
+jpop
+jrock
+jumpstyle
+jungle
+kizomba
+kpop
+latin
+lounge
+makina
+manele
+meditation
+merengue
+metal
+minimal
+mixtapes
+moombahton
+mor
+nature
+neurofunk
+neurohop
+new age
+new wave
+news
+noise
+nu jazz
+oldies
+opera
+orchestra
+piano
+polka
+pop
+progressive
+psybient
+psybreaks
+psychedelic
+psychobilly
+psytrance
+punk
+ragga
+rap
+rave
+reggae
+reggaeton
+relaxation
+religious
+rnb
+rock
+rockabilly
+romania
+romantic
+roots
+salsa
+schlager
+schranz
+showtunes
+ska
+skiffle
+smooth jazz
+soca
+soul
+soundtracks
+space
+spanish
+speedcore
+spiritual
+sport
+surf
+swing
+synthpop
+talk
+tech house
+techno
+technology
+tejano
+tekno
+thai
+top 40
+trance
+trap
+tribal
+trip hop
+urban
+vocal
+west coast
+western swing
+world
+zouk
