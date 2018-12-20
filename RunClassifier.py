@@ -24,14 +24,14 @@ def leEClassifica:
 
 	# Load Classifier
 	with open('eeg_classifier.pkl', 'rb') as fid:
-    	clf = pickle.load(fid)
+    		clf = pickle.load(fid)
 
-    # Gives an array with state for each sample(row)  
-    result = clf.predict(data)
+    	# Gives an array with state for each sample(row)  
+    	result = clf.predict(data)
 
-    # If you want to predict from the first sample(row)
-    state = result[0]
+    	# If you want to predict from the first sample(row)
+    	state = result[0]
 
-    return state
+    	return state
 
 
