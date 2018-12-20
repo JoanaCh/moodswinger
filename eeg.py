@@ -18,6 +18,8 @@ from six.moves import range
 # 3rd party
 import numpy as np
 
+np.set_printoptions(threshold=np.nan)
+
 # local
 from . import tools as st
 from .. import plotting, utils
@@ -144,21 +146,20 @@ def eeg(signal=None, sampling_rate=1000., labels=None, show=True, name_to_file=N
 
     # outpu
     the_Text = ["theta", "alpha_low", "alpha_high", "beta", "gamma"]
+    the_values = [theta, alpha_low, alpha_high, beta, gamma]
+    #where_files_are = []
+    #for i in range(0,5):
+    #    name_file = name_to_file + the_Text[i] + ".txt"
+    #    with open(name_file, "w") as file:
+    #        file.write(str(the_values[i]))
+    #    where_files_are.append(name_file)
+    #return [len(theta), where_files_are]
+
+    return_dic = {}
     for i in range(0,5):
-        #SHAME CONTINUAR AQUIIIII
-        name_file = name_to_file + 
-        #with open(name + "_" + the_Text[bhaa] + ".txt", "w") as file:
-        with open("teste.txt", "w") as file:
-            if i == 0:
-                file.write(str(theta))
-            elif i == 1:
-                file.write(str(alpha_low))
-            elif bhaa == 2:
-                file.write(str(alpha_high))
-            elif i == 3:
-                file.write(str(beta))
-            elif i == 4:
-                file.write(str(gamma))
+        return_dic[the_Text[i]] = the_values[i]
+
+    return [len(theta), return_dic]
 
 
 
