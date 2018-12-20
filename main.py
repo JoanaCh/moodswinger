@@ -35,7 +35,7 @@ class program:
         # Options Selections
         #self.list_genre = self.music_controler.genres
         #self.current_genre = None # This will be used for just playing a different genre of music
-        self.option_list = ["Whats my Mood?", "Genres of Music", "Play Music", "My Options", "Quit Program"]
+        self.option_list = ["Play by Mood", "Play by Choice", "My Options", "Quit Program"]
         #---------------------------------
         #for the genre and mood
 
@@ -121,15 +121,14 @@ class program:
         while True:
             if not (GPIO.input(self.btn_verde)):
                 break
-
-            if not (GPIO.input(self.btn_vermelho)):
-                tempo_espera = time() + 3
-                while(not (GPIO.input(self.btn_vermelho))):
-                    if (tempo_espera < time()):
-                        sleep(.5)
-                        # CHANGE TO THE change_menu_options
-                        item_to_return = "change_options"
-                        break
+            #if not (GPIO.input(self.btn_vermelho)):
+            #    tempo_espera = time() + 3
+            #    while(not (GPIO.input(self.btn_vermelho))):
+            #        if (tempo_espera < time()):
+            #            sleep(.5)
+            #            # CHANGE TO THE change_menu_options
+            #            item_to_return = "change_options"
+            #            break
 
             
             last_rob_status = GPIO.input(self.roBin)
@@ -247,55 +246,23 @@ class program:
                     self.process.start()
                 radio_pid = subprocess.Popen(["mplayer","-playlist", lista["radios"][last_global_counter][1]], preexec_fn=os.setsid)
 
-        self.main_menu()
-
-
-    def change_options(self):
-        self.lcd.lcd_clear()
-        self.killProcess()
-        globalcounter = 0
-
-        while True:
-            if not(GPIO.input(self.btn_vermelho)):
-                os.kill(os.getpgid(radio_pid.pid), signal.SIGTERM)
-                self.killProcess()
-                sleep(.25)
-                break
-
-            if not(GPIO.input(self.btn_branco_esquerda)):
-                if globalcounter != 0:
-                    globalcounter = globalcounter - 1
-                    sleep(.25)
-
-            if not(GPIO.input(self.btn_branc_direita)):
-                if globalcounter <  3:
-                    globalcounter = globalcounter + 1
-                    sleep(.25)
-            
-            if globalcounter != last_global_counter:
-                self.killProcess()
-                self.process = multiprocessing.Process(target=self.long_string, args=(self.lcd,self.music_controler.genre_radios[last_global_counter][0],2,16,))
-                self.process.start()
-                
-        self.main_menu()
-      
+        self.main_menu()      
 
     def main_menu(self):
 
         choice = self.menu_main(self.option_list)
         
-        if choice == self.option_list[0]: #CASE for mood check
+        if choice == self.option_list[0]:   #CASE for play by mood
             self.current_mood_view()
-        elif choice == self.option_list[1]: #CASE for music genre
-            self.genre_options()
-        elif choice == self.option_list[2]: # CASE play music 
+        elif choice == self.option_list[1]: #CASE for play by choice
             self.play_music_menu()
-        elif choice == self.option_list[3]: # CASE CHOSEN OPTIONS
+        elif choice == self.option_list[2]: #CASE Options 
             self.chosen_options()
-        elif choice == "change_options":
-            self.change_options()
-        elif choice == self.option_list[4]: # CASE QUIT OPTION
+        elif choice == self.option_list[3]: # CASE QUIT PROGRAM
             self.destroy()
+        #elif choice == "change_options":
+            #self.change_options()
+            
 
 
     def current_mood_view(self):
@@ -352,7 +319,25 @@ class program:
                     self.radios_genres["custom"]["radios"] = self.music_controler.get_genre_radios(choice_sub)
                     self.main_menu()
 
+    
+    def change_options(self, mood):
+        choice = self.menu("Mood: " + mood, self.music_genres)
 
+        if choice == None:
+            self.main_menu()
+        else:
+            choice_sub = self.menu("Choose SubGenre" ,self.music_controler.json_genres[choice])
+
+            if choice_sub == None:
+                self.change_options()
+            else:
+                self.lcd.lcd_clear()
+                self.lcd.lcd_display_string('Getting Radios', 1)
+                self.lcd.lcd_display_string('For {0}'.format(choice_sub), 2)
+                gen = choice_sub
+                rads = self.music_controler.get_genre_radios(choice_sub)
+                return [gen, rads]
+                #self.main_menu()
 
     def play_music_menu(self):
 
@@ -366,8 +351,8 @@ class program:
             states.append(keys)
 
         choice = self.menu('Choose Mood', states)
-        
         print(choice)
+        
 
         if choice == "custom" and self.radios_genres[choice]["genero"] == "Unknown":
             self.lcd.lcd_clear()
@@ -375,6 +360,9 @@ class program:
             self.lcd.lcd_display_string('Select a Genre', 2)
             sleep(3)
             self.genre_options()
+
+        if(choice == None):
+            self.main_menu()
 
         self.radio_menu('Playing Radio', self.radios_genres[choice])
 
@@ -390,36 +378,45 @@ class program:
         blah = []
         for keys,items in self.radios_genres.items():
             blah.append(keys)
-
-        print(blah)
-
         
         self.lcd.lcd_clear()
-        self.lcd.lcd_display_string("Mood:", 1)
+        self.lcd.lcd_display_string("Mood:" + self.radios_genres[blah[globalcounter]]["estado"], 1)
         self.lcd.lcd_display_string("{0}".format(self.radios_genres[blah[globalcounter]]["genero"]), 2)
 
         sleep(.25)
         while time_limit > time():
             if not(GPIO.input(self.btn_vermelho)):
-                cancel = "yes"
+                sleep(.25)
+                break
             
             if not(GPIO.input(self.btn_branco_esquerda)):
                 if globalcounter != 0:
                     globalcounter = globalcounter - 1
                     time_limit = time() + 60
+                    sleep(.25)
 
             if not(GPIO.input(self.btn_branc_direita)):
                 if globalcounter < len(blah) - 1:
                     globalcounter = globalcounter + 1
+
                     time_limit = time() + 60
+                    sleep(.25)
+
+            if not(GPIO.input(self.btn_verde)):
+                info = self.change_options(blah[globalcounter])
+                self.radios_genres[blah[globalcounter]]["genero"] = info[0]
+                self.radios_genres[blah[globalcounter]]["radios"] = info[1]
+                
+                self.lcd.lcd_clear()
+                self.lcd.lcd_display_string("Mood:" + self.radios_genres[blah[globalcounter]]["estado"], 1)
+                self.lcd.lcd_display_string("{0}".format(self.radios_genres[blah[globalcounter]]["genero"]), 2)
+
                     
-            if cancel == "yes":
-                break
 
             if globalcounter != last_global_counter:
                 last_global_counter = globalcounter
                 self.lcd.lcd_clear()
-                self.lcd.lcd_display_string("Mood:", 1)
+                self.lcd.lcd_display_string("Mood:" + self.radios_genres[blah[globalcounter]]["estado"], 1)
                 self.lcd.lcd_display_string("{0}".format(self.radios_genres[blah[globalcounter]]["genero"]), 2)
 
         self.main_menu()
@@ -453,11 +450,10 @@ class program:
     def killProcess(self):
         if self.process is not None:
             try:
-
                 self.process.terminate()
                 self.process = None
             except:
-                pass
+                print("O O F problema")
 
 if __name__=='__main__':
     programa = program()
